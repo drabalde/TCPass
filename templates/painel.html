@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Senhas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            margin: 20px 0;
+        }
+        .info {
+            font-size: 48px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Painel de Senhas</h1>
+    
+	<div class="info">
+        <p>Guichê: <span id="guiche">-</span></p>
+    </div>
+    <div class="info">
+        <p>Senha Atual: <span id="senha">-</span></p>
+    </div>
+
+    <script>
+        function atualizarPainel() {
+            fetch('/atualizar')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('senha').innerText = data.senha;
+                    document.getElementById('guiche').innerText = data.guiche;
+                });
+        }
+
+        // Atualiza o painel a cada 2 segundos
+        setInterval(atualizarPainel, 2000);
+        atualizarPainel();
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+
+
+ # Project: Pannel_call
+ # File: /H:/Workspace_Sync/Projetos/Painel de chamada/Pannel_call
+ # Description: [Add a brief description of what this file is for]
+ # Author: [Diego Rabaldelli]
+ # Date: [15-01-2025]
+
+ from flask import Flask, render_template, request, jsonify
+
+app = Flask(__name__)
+
+# Variáveis globais para senha e guichê
+senha_atual = 0
+guiche_atual = 0
+
+@app.route('/')
+def index():
+    # Renderiza a página principal com a ssenha e guichê atuais
+    return render_template('painel.html', senha=senha_atual, guiche=guiche_atual)
+
+@app.route('/chamar', methods=['POST'])
+def chamar():
+    global senha_atual, guiche_atual
+    senha_atual += 1
+    guiche_atual = request.json.get('guiche', 1)
+    return jsonify({"senha": senha_atual, "guiche": guiche_atual})
+
+@app.route('/atualizar', methods=['GET'])
+def atualizar():
+    return jsonify({"senha": senha_atual, "guiche": guiche_atual})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
